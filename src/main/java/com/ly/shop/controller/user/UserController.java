@@ -10,10 +10,13 @@ import com.ly.shop.vo.user.UserLoginVo;
 import com.ly.shop.vo.user.UserRegisterVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 
 @RestController
@@ -28,9 +31,24 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiOperation("登录")
-    public CommResult<User> postLogin(@Validated @RequestBody UserLoginVo userLoginVo) {
+    public CommResult<User> postLogin(HttpSession httpSession, @Validated @RequestBody UserLoginVo userLoginVo) {
         User user = userService.findByUserLoginVo(userLoginVo);
+        httpSession.setAttribute("user", user);
         return CommResult.suc(user);
+    }
+
+
+    @GetMapping("/session")
+    @ApiOperation("测试方法，获取session")
+    public CommResult<User> getSession(HttpSession session) {
+        Object o = session.getAttribute("user");
+        try {
+            User user = (User) o;
+            return CommResult.suc(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return CommResult.fail(ErrCode.REQUEST_ERR.getCode(), "没有找到对应的session");
+        }
     }
 
     @PostMapping("/register")

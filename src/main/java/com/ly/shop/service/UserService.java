@@ -26,9 +26,9 @@ public class UserService {
     public User findByUserLoginVo(UserLoginVo userLoginVo) {
         // 理论上前端传过来的应该是加密后的pw，但是前端目前用postman请求
         // 在service模拟加密
-        String passWord = userLoginVo.getPassword();
+        String passWord = userLoginVo.getPassWord();
         // 加密
-        userLoginVo.setPassword(passWord);
+        userLoginVo.setPassWord(passWord);
         User user = userMapper.findByUserNamePassWord(userLoginVo);
         if (user == null) {
             throw new UserNotFoundException(ErrCode.USER_NOT_EXIST);

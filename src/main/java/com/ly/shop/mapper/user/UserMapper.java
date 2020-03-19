@@ -14,7 +14,7 @@ import org.mapstruct.Mapper;
 public interface UserMapper {
 
 
-    @Select("SELECT * FROM APP_USER WHERE user_name =  #{username} and password =  #{password}")
+    @Select("SELECT * FROM APP_USER WHERE user_name =  #{userName} and password =  #{passWord}")
     public User findByUserNamePassWord(UserLoginVo userLoginVo);
 
     @Insert("INSERT INTO APP_USER (user_name,password,user_source,user_source_ident) values (#{userName},#{passWord},#{userSource},#{userSourceIdent})")
