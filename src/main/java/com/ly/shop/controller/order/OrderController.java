@@ -144,9 +144,10 @@ public class OrderController extends BaseController {
         int result = orderService.order(orderAddVo);
         // 5.下单成功后，更新商品库存，更新用户历史订单数
         // 拿到最新的库存
-        int stockNum = product.getStockNum() - orderAddVo.getProductNum();
+        // TODO: 2020/3/20   不能在java里面进行库存操作，比如下单库存减一，会出现并发问题，借助mysql的乐观锁机制 可以稍微避免
+//        int stockNum = product.getStockNum() - orderAddVo.getProductNum();
         // 更新商品表库存
-        int updateCode = productService.updateStock(orderAddVo.getProductId(), stockNum);
+        int updateCode = productService.updateStock(orderAddVo.getProductId(), orderAddVo.getProductNum());
         log.info("addOrders-更新商品库存表结果" + (updateCode == 1));
         // 更新用户历史下单数
         int hisOrderQuantity = user.getHisOrderQuantity() + 1;

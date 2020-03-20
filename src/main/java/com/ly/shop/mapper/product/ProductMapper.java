@@ -34,7 +34,7 @@ public interface ProductMapper {
     Product findById(long id);
 
 
-    @Update("update  app_product set stock_num = #{stockNum} where id =#{id}")
+    @Update("update  app_product set stock_num = stock_num - #{stockNum} where id =#{id} and stock_num > 0")
     int updateProductStock(long id, int stockNum);
 
 
