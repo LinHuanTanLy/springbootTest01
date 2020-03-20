@@ -52,11 +52,11 @@
         <!--end of lombok-->
 
         <!--JSON封装-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.alibaba</groupId>-->
-        <!--            <artifactId>fastjson</artifactId>-->
-        <!--            <version>1.2.36</version>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.36</version>
+        </dependency>
         <!--end of json-->
 
         <!--pageHelper-->
@@ -104,6 +104,13 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
+        <!--end of Redis依赖-->
+        <!--引入AOP依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!--end of 引入AOP依赖-->
     </dependencies>
 
     <build>

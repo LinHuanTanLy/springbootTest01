@@ -7,4 +7,8 @@ public class UserNotFoundException extends BaseException {
     public UserNotFoundException(ErrCode err) {
         super(err);
     }
+
+    public UserNotFoundException() {
+        super(ErrCode.USER_NOT_EXIST);
+    }
 }

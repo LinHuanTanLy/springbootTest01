@@ -16,6 +16,10 @@ public class UserRegisterVo {
     @NotBlank(message = "用户密码不可以为空")
     @ApiModelProperty(value = "用户密码", required = true)
     private String passWord;
+
+    @NotBlank(message = "手机不可以为空")
+    @ApiModelProperty(value = "手机", required = true)
+    private String userMobile;
     @Max(3)
     @Min(0)
     @ApiModelProperty(value = "用户来源  0：默认  1：企业微信  2：微信  3：QQ", required = true)

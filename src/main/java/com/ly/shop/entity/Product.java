@@ -4,6 +4,7 @@ package com.ly.shop.entity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -25,10 +26,10 @@ public class Product {
     private String mainImg;
 
     @ApiModelProperty(value = "价格", required = true)
-    private double price;
+    private BigDecimal price;
 
     @ApiModelProperty(value = "原价", required = true)
-    private double originPrice;
+    private BigDecimal originPrice;
 
     @ApiModelProperty(value = "库存数量", required = true)
     private int stockNum;

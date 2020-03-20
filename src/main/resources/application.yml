@@ -16,3 +16,7 @@ spring:
         max-idle: 20
         min-idle: 0
     timeout: 3000
+    database: 1
+  logging:
+    level:
+      com.ly.shop.mapper: debug

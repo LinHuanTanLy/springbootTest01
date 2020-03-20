@@ -17,6 +17,7 @@ public enum ErrCode {
     REQUEST_ERR(1002, HttpStatus.INTERNAL_SERVER_ERROR, "服务器内部错误"),
     METHOD_ARGUMENT_NOT_VALID(1003, HttpStatus.BAD_REQUEST, "请求参数错误"),
     USER_IS_EXIST(1004, HttpStatus.BAD_REQUEST, "该用户已经存在了"),
+    UNAUTHORIZED(1005, HttpStatus.UNAUTHORIZED, "登录信息已经失效"),
     SUC(1000, HttpStatus.OK, "请求成功");
     private String msg;
     private int code;

@@ -1,6 +1,7 @@
 package com.ly.shop.service;
 
 
+import com.alibaba.fastjson.JSON;
 import com.ly.shop.api.ErrCode;
 import com.ly.shop.entity.User;
 import com.ly.shop.exception.impl.UserIsExistException;
@@ -8,12 +9,12 @@ import com.ly.shop.exception.impl.UserNotFoundException;
 import com.ly.shop.mapper.user.UserMapper;
 import com.ly.shop.vo.user.UserLoginVo;
 import com.ly.shop.vo.user.UserRegisterVo;
+import com.ly.shop.vo.user.UserSelectVo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -23,36 +24,36 @@ public class UserService {
     UserMapper userMapper;
 
 
-    public User findByUserLoginVo(UserLoginVo userLoginVo) {
-        // 理论上前端传过来的应该是加密后的pw，但是前端目前用postman请求
-        // 在service模拟加密
-        String passWord = userLoginVo.getPassWord();
-        // 加密
-        userLoginVo.setPassWord(passWord);
-        User user = userMapper.findByUserNamePassWord(userLoginVo);
-        if (user == null) {
-            throw new UserNotFoundException(ErrCode.USER_NOT_EXIST);
-        }
-        return user;
-    }
-
-
-    public int addUserInfo(UserRegisterVo registerVo) {
-        int userName = userMapper.countForUserName(registerVo.getUserName());
-        if (userName > 0) {
+    /**
+     * @param user
+     * @return
+     * @see UserRegisterVo
+     * 注册
+     */
+    public int addUserInfo(User user) {
+        int userCount = userMapper.countForUserName(user.getUserName(), user.getUserMobile());
+        if (userCount > 0) {
             throw new UserIsExistException(ErrCode.USER_IS_EXIST);
         }
-        log.info("userLoginVo is " + registerVo.toString());
-        User user = new User();
-        BeanUtils.copyProperties(registerVo, user);
-        log.info("after copy, the user  is " + user.toString());
-        /// 补上空缺的字段
-        /// 创建者可以从 Authentication  中拿到
-        user.setCreatedTime(LocalDateTime.now());
-        user.setUpdate_Time(LocalDateTime.now());
-        user.setVersion(1);
-
         return userMapper.addUser(user);
-
     }
+
+    /**
+     * 查用户
+     *
+     * @param userSelectVo
+     * @return
+     */
+    public List<User> findUser(UserSelectVo userSelectVo) {
+
+
+        log.info("findUser---" + userSelectVo.toString());
+        List<User> users = userMapper.findUser(userSelectVo);
+        if (!users.isEmpty()) {
+            return users;
+        } else {
+            throw new UserNotFoundException();
+        }
+    }
+
 }
