@@ -53,6 +53,8 @@ public class User implements Serializable {
     private Integer lastOperatorId;
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
+    @ApiModelProperty(value = "历史订单数")
+    private Integer hisOrderQuantity;
 
     public Long getId() {
         return id;

@@ -36,5 +36,5 @@ public class AppCart {
     @ApiModelProperty(value = "更新用户Id")
     private Integer lastOperatorId;
     @ApiModelProperty(value = "更新时间")
-    private String update_Time;
+    private String updateTime;
 }

@@ -2,11 +2,13 @@ package com.ly.shop.vo.user;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 查找专用
  */
 @Data
+@NoArgsConstructor
 public class UserSelectVo {
     public UserSelectVo(Long id) {
         this.id = id;

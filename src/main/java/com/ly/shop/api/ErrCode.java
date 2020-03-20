@@ -18,6 +18,11 @@ public enum ErrCode {
     METHOD_ARGUMENT_NOT_VALID(1003, HttpStatus.BAD_REQUEST, "请求参数错误"),
     USER_IS_EXIST(1004, HttpStatus.BAD_REQUEST, "该用户已经存在了"),
     UNAUTHORIZED(1005, HttpStatus.UNAUTHORIZED, "登录信息已经失效"),
+    UPDATE_ERROR(1006, HttpStatus.BAD_REQUEST, "数据更新失败"),
+    ADD_ERROR(1007, HttpStatus.BAD_REQUEST, "数据添加失败"),
+    PRODUCT_NOT_EXIST(1008, HttpStatus.NOT_FOUND, "商品迷路了"),
+    PRODUCT_OUT_OF_STOCK(1009, HttpStatus.NOT_FOUND, "商品库存不足"),
+    ORDER_SUBMIT_ERR(1010, HttpStatus.INTERNAL_SERVER_ERROR, "订单价格错误"),
     SUC(1000, HttpStatus.OK, "请求成功");
     private String msg;
     private int code;

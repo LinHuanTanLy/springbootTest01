@@ -22,7 +22,6 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public CommResult<ErrCode> handleAppException(BaseException ex) {
-
         ErrCode errCode = ex.getErr();
         if (errCode != null) {
             return CommResult.fail(errCode.getCode(), errCode.getMsg());

@@ -37,5 +37,7 @@ public class Order {
     @ApiModelProperty(value = "更新用户Id")
     private Integer lastOperatorId;
     @ApiModelProperty(value = "更新时间")
-    private String update_Time;
+    private String updateTime;
+    @ApiModelProperty(value = "订单状态 0-未支付 1-已支付 2-已取消 3-已退款")
+    private Integer status;
 }

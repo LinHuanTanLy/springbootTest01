@@ -1,14 +1,18 @@
 package com.ly.shop.controller.user;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ly.shop.api.CommResult;
 import com.ly.shop.api.ErrCode;
 import com.ly.shop.base.BaseController;
+import com.ly.shop.constant.ShopConstant;
 import com.ly.shop.entity.User;
 import com.ly.shop.service.UserService;
 import com.ly.shop.vo.user.UserLoginVo;
 import com.ly.shop.vo.user.UserRegisterVo;
 import com.ly.shop.vo.user.UserSelectVo;
+import com.ly.shop.vo.user.UserUpdateVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -106,11 +110,65 @@ public class UserController extends BaseController {
     }
 
 
-    @PostMapping("/{id}")
-    @ApiOperation("根据id查找用户信息")
-    public CommResult<List<User>> postUserInfo(@PathVariable int id) {
-        return CommResult.suc(userService.findUser(new UserSelectVo((long) id)));
+    @PostMapping("/find")
+    @ApiOperation("根据信息查找用户信息")
+    public CommResult<List<User>> postUserInfo(@RequestBody UserSelectVo userSelectVo) {
+        return CommResult.suc(userService.findUser(userSelectVo));
     }
 
+    @PutMapping("/update")
+    @ApiOperation("更新用户信息")
+    public CommResult<Boolean> putUpdateUserInfo(HttpSession httpSession, @RequestBody UserUpdateVo userUpdateVo) {
+        User user = getUserFromSession(httpSession);
+        if (user != null) {
+            userUpdateVo.setUpdateTime(LocalDateTime.now());
+            userUpdateVo.setLastOperator(user.getUserName());
+            userUpdateVo.setLastOperatorId(user.getLastOperatorId());
+        }
+        int resultCode = userService.updateUsr(userUpdateVo);
+        if (resultCode == 1) {
+            return CommResult.suc(true);
+        } else {
+            return CommResult.fail(ErrCode.UPDATE_ERROR.getCode(), ErrCode.UPDATE_ERROR.getMsg());
+        }
+    }
 
+    @DeleteMapping("/{id}")
+    @ApiOperation("删除用户")
+    public CommResult<Boolean> deleteUser(HttpSession httpSession, @PathVariable int id) {
+        UserUpdateVo userUpdateVo = new UserUpdateVo();
+        User user = getUserFromSession(httpSession);
+        assignmentUserUpdateInfo(userUpdateVo, user);
+        userUpdateVo.setId((long) id);
+        userUpdateVo.setIsDeleted(ShopConstant.isDelete.DELETE);
+        int resultCode = userService.updateUsr(userUpdateVo);
+        if (resultCode == 1) {
+            return CommResult.suc(true);
+        } else {
+            return CommResult.fail(ErrCode.UPDATE_ERROR.getCode(), ErrCode.UPDATE_ERROR.getMsg());
+        }
+    }
+
+    @GetMapping("/")
+    @ApiOperation("列出所有用户")
+    public CommResult<PageInfo<User>> users(@RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                                            @RequestParam(value = "pageNum", defaultValue = "0") int pageNum) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> list = userService.findUser(new UserSelectVo());
+        return CommResult.suc(new PageInfo<>(list));
+    }
+
+    /**
+     * 赋值更新时间等
+     *
+     * @param userUpdateVo
+     * @param user
+     */
+    private void assignmentUserUpdateInfo(UserUpdateVo userUpdateVo, User user) {
+        if (user != null) {
+            userUpdateVo.setUpdateTime(LocalDateTime.now());
+            userUpdateVo.setLastOperator(user.getUserName());
+            userUpdateVo.setLastOperatorId(user.getLastOperatorId());
+        }
+    }
 }
