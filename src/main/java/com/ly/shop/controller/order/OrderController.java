@@ -146,7 +146,8 @@ public class OrderController extends BaseController {
         // 拿到最新的库存
         int stockNum = product.getStockNum() - orderAddVo.getProductNum();
         // 更新商品表库存
-        productService.updateStock(orderAddVo.getProductId(), stockNum);
+        int updateCode = productService.updateStock(orderAddVo.getProductId(), stockNum);
+        log.info("addOrders-更新商品库存表结果" + (updateCode == 1));
         // 更新用户历史下单数
         int hisOrderQuantity = user.getHisOrderQuantity() + 1;
         UserUpdateVo userUpdateVo = new UserUpdateVo();

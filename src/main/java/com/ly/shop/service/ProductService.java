@@ -7,6 +7,8 @@ import com.ly.shop.vo.product.ProductModifyVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -32,6 +34,13 @@ public class ProductService {
         return productMapper.addProduct(productAddVo);
     }
 
+    public List<Product> products() {
+        return productMapper.findAll();
+    }
+
+    public int delete(long id) {
+        return productMapper.deleteProduct(id);
+    }
 
     public int modifyProduct(ProductModifyVo modifyVo) {
         return productMapper.updateProduct(modifyVo);
