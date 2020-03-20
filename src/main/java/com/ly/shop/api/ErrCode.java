@@ -14,7 +14,7 @@ public enum ErrCode {
     USER_NOT_EXIST(1001, HttpStatus.NOT_FOUND, "没有该用户"),
 
 
-    REQUEST_ERR(1002, HttpStatus.INTERNAL_SERVER_ERROR, "服务器内部错误"),
+    REQUEST_ERR(1002, HttpStatus.INTERNAL_SERVER_ERROR, "请求失败"),
     METHOD_ARGUMENT_NOT_VALID(1003, HttpStatus.BAD_REQUEST, "请求参数错误"),
     USER_IS_EXIST(1004, HttpStatus.BAD_REQUEST, "该用户已经存在了"),
     UNAUTHORIZED(1005, HttpStatus.UNAUTHORIZED, "登录信息已经失效"),

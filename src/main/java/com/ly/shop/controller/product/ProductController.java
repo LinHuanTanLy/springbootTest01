@@ -6,15 +6,14 @@ import com.ly.shop.constant.ShopConstant;
 import com.ly.shop.entity.User;
 import com.ly.shop.service.ProductService;
 import com.ly.shop.vo.product.ProductAddVo;
+import com.ly.shop.vo.product.ProductModifyVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
@@ -43,7 +42,20 @@ public class ProductController extends BaseController {
         } else {
             return CommResult.fail(false);
         }
+    }
 
+    @PutMapping("/")
+    @ApiOperation("修改商品")
+    public CommResult<Boolean> modify(HttpSession httpSession, @RequestBody ProductModifyVo modifyVo) {
+        User user = getUserFromSession(httpSession);
+        initUserInfo(user, modifyVo);
+        modifyVo.setIsDeleted(ShopConstant.isDelete.NORMAL);
+        int resultCode = productService.modifyProduct(modifyVo);
+        if (resultCode == 1) {
+            return CommResult.suc(true);
+        } else {
+            return CommResult.fail(false);
+        }
     }
 
 
@@ -51,6 +63,13 @@ public class ProductController extends BaseController {
         addVo.setCreatedTime(LocalDateTime.now());
         addVo.setCreator(user.getUserName());
         addVo.setCreatorId(user.getId());
+        addVo.setLastOperator(user.getUserName());
+        addVo.setLastOperatorId(Math.toIntExact(user.getId()));
+        addVo.setUpdateTime(LocalDateTime.now());
+    }
+
+    private void initUserInfo(User user, ProductModifyVo addVo) {
+
         addVo.setLastOperator(user.getUserName());
         addVo.setLastOperatorId(Math.toIntExact(user.getId()));
         addVo.setUpdateTime(LocalDateTime.now());

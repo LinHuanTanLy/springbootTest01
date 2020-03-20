@@ -3,6 +3,7 @@ package com.ly.shop.service;
 import com.ly.shop.entity.Product;
 import com.ly.shop.mapper.product.ProductMapper;
 import com.ly.shop.vo.product.ProductAddVo;
+import com.ly.shop.vo.product.ProductModifyVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,10 @@ public class ProductService {
 
     public int addProduct(ProductAddVo productAddVo) {
         return productMapper.addProduct(productAddVo);
+    }
+
+
+    public int modifyProduct(ProductModifyVo modifyVo) {
+        return productMapper.updateProduct(modifyVo);
     }
 }

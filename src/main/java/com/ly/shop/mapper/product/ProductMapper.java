@@ -1,7 +1,9 @@
 package com.ly.shop.mapper.product;
 
 import com.ly.shop.entity.Product;
+import com.ly.shop.mapper.product.provider.ProductProvider;
 import com.ly.shop.vo.product.ProductAddVo;
+import com.ly.shop.vo.product.ProductModifyVo;
 import org.apache.ibatis.annotations.*;
 
 public interface ProductMapper {
@@ -36,4 +38,7 @@ public interface ProductMapper {
             "creator,created_time,last_operator_id,last_operator,update_time,is_deleted) VALUES (#{productName},#{productCode},#{mainImg},#{price},#{originPrice}," +
             "#{stockNum},#{storeId},#{storeCode},#{creatorId},#{creator},#{createdTime},#{lastOperatorId},#{lastOperator},#{updateTime},#{isDeleted})")
     public int addProduct(ProductAddVo productAddVo);
+
+    @UpdateProvider(type = ProductProvider.class, method = "updateProduct")
+    int updateProduct(ProductModifyVo productAddVo);
 }

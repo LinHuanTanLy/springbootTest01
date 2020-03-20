@@ -77,8 +77,8 @@ public class OrderService {
      * @param id
      * @return
      */
-    public boolean delete(int id) {
-        return true;
+    public int delete(int id) {
+        return orderMapper.deleteOrder(id, ShopConstant.isDelete.DELETE);
     }
 
 }

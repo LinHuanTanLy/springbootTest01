@@ -161,6 +161,23 @@ public class OrderController extends BaseController {
         }
     }
 
+    @PostMapping("/{id}")
+    @ApiOperation("获取订单详情")
+    public CommResult<Order> order(@PathVariable int id) {
+        Order order = verifyOrderInfo(id);
+        return CommResult.suc(order);
+    }
+
+    @DeleteMapping("/{id}")
+    @ApiOperation("删除订单")
+    public CommResult<Boolean> delete(@PathVariable int id) {
+        int resultCode = orderService.delete(id);
+        if (resultCode == 1) {
+            return CommResult.suc(true);
+        } else {
+            return CommResult.fail(false);
+        }
+    }
 
     /**
      * 校验订单是否存在
