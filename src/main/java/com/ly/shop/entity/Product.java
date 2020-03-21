@@ -40,7 +40,7 @@ public class Product {
     @ApiModelProperty(value = "店铺ID", required = true)
     private Integer storeId;
     @ApiModelProperty(value = "店铺编码", required = true)
-    private Integer storeCode;
+    private String storeCode;
     @ApiModelProperty(value = "创建者")
     private String creator;
     @ApiModelProperty(value = "创建者ID")

@@ -1,7 +1,7 @@
 package com.ly.shop.constant;
 
 public class ShopConstant {
-
+    public static final String REDIS_PRODUCT_KEY = "session_redis_key_";
     // session key名
     public static final String SESSION_KEY_NAME = "user";
     // 版本号

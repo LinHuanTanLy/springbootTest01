@@ -3,6 +3,7 @@ package com.ly.shop.exception;
 
 import com.ly.shop.api.CommResult;
 import com.ly.shop.api.ErrCode;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,6 +23,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public CommResult<ErrCode> handleAppException(BaseException ex) {
+        if (ex.getErr() == null) {
+            return CommResult.fail(ErrCode.REQUEST_ERR);
+        }
         ErrCode errCode = ex.getErr();
         if (errCode != null) {
             return CommResult.fail(errCode.getCode(), errCode.getMsg());
@@ -44,6 +48,18 @@ public class GlobalExceptionHandler {
             return CommResult.fail(METHOD_ARGUMENT_NOT_VALID);
         }
 
+
+    }
+
+    /**
+     * 捕获校验错误
+     *
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public CommResult<ErrCode> handleAppException(HttpMessageNotReadableException ex) {
+        return CommResult.fail(ErrCode.REQUEST_ERR.getCode(), ex.getMessage());
 
     }
 }
